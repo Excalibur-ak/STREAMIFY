@@ -6,10 +6,20 @@ import FriendCard from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
 
 const FriendsPage = () => {
-  const { data: friends = [], isLoading } = useQuery({
+  const { data: friends = [], isLoading, error } = useQuery({
     queryKey: ["friends"],
     queryFn: getUserFriends,
   });
+
+  console.log("Friends data:", friends, "Loading:", isLoading, "Error:", error);
+
+  if (error) {
+    return (
+      <div className="flex justify-center py-12">
+        <span className="text-error">Failed to load friends: {error.message}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
